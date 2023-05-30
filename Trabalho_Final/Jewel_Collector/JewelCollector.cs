@@ -13,7 +13,7 @@ public class JewelCollector
           //string command = Console.ReadKey();
           cki = Console.ReadKey();
   
-          if (cki.Equals("quit")) {
+          if (cki.Equals("q")) {
               running = false;
           } else if (cki.Equals("w")) {
               
