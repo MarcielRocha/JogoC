@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\marci\\Unicamp_IC\\Trabalho_Final\\Jewel_Collector\\Jewel_Collector.csproj": {}
+    "c:\\Users\\marci\\Unicamp_IC\\Trabalho_Final\\JogoC\\Trabalho_Final\\Jewel_Collector\\Jewel_Collector.csproj": {}
   },
   "projects": {
-    "c:\\Users\\marci\\Unicamp_IC\\Trabalho_Final\\Jewel_Collector\\Jewel_Collector.csproj": {
+    "c:\\Users\\marci\\Unicamp_IC\\Trabalho_Final\\JogoC\\Trabalho_Final\\Jewel_Collector\\Jewel_Collector.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\marci\\Unicamp_IC\\Trabalho_Final\\Jewel_Collector\\Jewel_Collector.csproj",
+        "projectUniqueName": "c:\\Users\\marci\\Unicamp_IC\\Trabalho_Final\\JogoC\\Trabalho_Final\\Jewel_Collector\\Jewel_Collector.csproj",
         "projectName": "Jewel_Collector",
-        "projectPath": "c:\\Users\\marci\\Unicamp_IC\\Trabalho_Final\\Jewel_Collector\\Jewel_Collector.csproj",
+        "projectPath": "c:\\Users\\marci\\Unicamp_IC\\Trabalho_Final\\JogoC\\Trabalho_Final\\Jewel_Collector\\Jewel_Collector.csproj",
         "packagesPath": "C:\\Users\\marci\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\marci\\Unicamp_IC\\Trabalho_Final\\Jewel_Collector\\obj\\",
+        "outputPath": "c:\\Users\\marci\\Unicamp_IC\\Trabalho_Final\\JogoC\\Trabalho_Final\\Jewel_Collector\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\marci\\AppData\\Roaming\\NuGet\\NuGet.Config"
