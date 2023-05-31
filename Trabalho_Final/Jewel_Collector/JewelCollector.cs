@@ -9,21 +9,21 @@ public class JewelCollector
       do {
   
           Console.WriteLine("Enter the command: ");
-          ConsoleKeyInfo cki;
+          char cki = Console.ReadKey().KeyChar;
           //string command = Console.ReadKey();
-          cki = Console.ReadKey();
+          Console.WriteLine(cki);
   
-          if (cki.Equals("q")) {
+          if (cki.Equals('q')) {
               running = false;
-          } else if (cki.Equals("w")) {
+          } else if (cki.Equals('w')) {
               
-          } else if (cki.Equals("a")) {
+          } else if (cki.Equals('a')) {
               
-          } else if (cki.Equals("s")) {
+          } else if (cki.Equals('s')) {
             
-          } else if (cki.Equals("d")) {
+          } else if (cki.Equals('d')) {
           
-          } else if (cki.Equals("g")) {
+          } else if (cki.Equals('g')) {
               
           }
           
