@@ -1,12 +1,7 @@
 namespace Jewel_Collector;
-
-public class Obstacle
-{
-
-    int senha = 0;
-
-    void Retonar()
-    {
-    Console.WriteLine( senha);
-    }
+/// <summary>
+/// Classe responsável pelo itens do mapa, em específico os obstáculos.
+/// </summary>
+public abstract class Obstacle : ItemMap {
+    public Obstacle(string Symbol) : base(Symbol) {}
 }
