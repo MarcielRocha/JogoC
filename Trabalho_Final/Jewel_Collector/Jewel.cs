@@ -1,7 +1,7 @@
 namespace Jewel_Collector;
 
 /// <summary>
-/// Classe responsável pelas Jóias e contabilizar pontuação.
+/// Joia que sera capturada no jogo e pontuacao acumulada.
 /// </summary>
 public abstract class Jewel : ItemMap {
     public int Points {get; private set;}
@@ -12,20 +12,20 @@ public abstract class Jewel : ItemMap {
 }
 
 /// <summary>
-/// Classe responsável pelo obstáculo água no mapa, e sua representação visual.
+/// Obstaculo de agua do jogo.
 /// </summary>
 public class Water : Obstacle {
     public Water() : base("## "){}
 }
 
 /// <summary>
-/// Classe reponsável pela Jóia Azul, pontuação e recarregar energia
+/// Joia azul com recarga de 5 pontos de energia.
 /// </summary>
 public class JewelBlue : Jewel, Rechargeable {
     
     public void Recharge(Robot r)
     {
-        r.energy = r.energy+3;
+        r.energy = r.energy+5;
     }
 
     public JewelBlue() : base("JB ", Constants.cCarga10) {}

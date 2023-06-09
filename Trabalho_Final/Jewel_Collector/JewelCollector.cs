@@ -1,5 +1,5 @@
 /// <summary>
-/// Classe responsável pelos delegates e eventos de movimentação do robo.
+/// Realizar a movimentacao do robo no mapa criado.
 /// </summary>
 namespace Jewel_Collector;
 using System;
@@ -20,7 +20,8 @@ public class JewelCollector
     static event GetJ OnGet;
 
     /// <summary>
-    /// Método principal, inicia o jogo.
+    /// Carrega o mapa e inicia o jogo. 
+    /// A cada nova letra, recarrega o mapa já com a nova acao realizada.
     /// </summary>
       public static void Main() {
   
@@ -58,7 +59,7 @@ public class JewelCollector
       } while (running);
   }
     /// <summary>
-    /// Responsável pela leitura do teclado, e atribuição aos eventos.
+    /// Ler o teclado e executar a acao indicada.
     /// </summary>
     private static bool Run(Robot robot)  
     {

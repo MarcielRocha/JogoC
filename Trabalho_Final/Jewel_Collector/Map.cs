@@ -108,8 +108,15 @@ public class Map{
         return MapaJogo[x, y] is PreencheVazio;
     }
     public void PrintMap() {
-        for (int i = 0; i < MapaJogo. GetLength(0); i++){
+        for (int i = 0; i < MapaJogo.GetLength(0); i++){
             for (int j = 0; j < MapaJogo.GetLength(1); j++){
+                if(MapaJogo[i, j] is JewelRed) Console.ForegroundColor= ConsoleColor.Red;
+                else if(MapaJogo[i, j] is JewelGreen) Console.ForegroundColor= ConsoleColor.Green;
+                else if(MapaJogo[i, j] is JewelBlue) Console.ForegroundColor= ConsoleColor.Blue;
+                else if(MapaJogo[i, j] is Water) Console.ForegroundColor= ConsoleColor.Magenta;
+                else if(MapaJogo[i, j] is Tree) Console.ForegroundColor= ConsoleColor.DarkGreen;
+                else if(MapaJogo[i, j] is Robot) Console.ForegroundColor= ConsoleColor.Cyan;
+                else Console.ForegroundColor= ConsoleColor.Gray;
                 Console.Write(MapaJogo[i, j]);
             }
             Console.Write("\n");
@@ -215,7 +222,7 @@ public class PreencheVazio : ItemMap {
 }
 
 /// <summary>
-/// Classe responsável pelo item do mapa árvore
+/// Obstáculo Árvore com recarga de 3 pontos de energia.
 /// </summary>
 public class Tree : Obstacle, Rechargeable {
     /// <summary>

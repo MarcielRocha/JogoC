@@ -100,15 +100,15 @@ public class Robot : ItemMap {
         }
         catch (OccupiedPositionException e)
         {
-            Console.WriteLine($"\nPosition {this.x}, {this.y-1} is occupied");
+            Console.WriteLine($"\nPosition {this.x}, {this.y-1} está ocupada");
         }
         catch (OutOfMapException e)
         {
-            Console.WriteLine($"\nPosition {this.x}, {this.y-1} is out of map");
+            Console.WriteLine($"\nPosition {this.x}, {this.y-1} está fora do mapa");
         }
         catch (Exception e)
         {
-            Console.WriteLine($"\nPosition is prohibit");
+            Console.WriteLine($"\nPosition é proibida");
         }
     }
     /// <summary>
