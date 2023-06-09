@@ -1,7 +1,7 @@
 namespace Jewel_Collector;
 
 /// <summary>
-/// Classe responsável pelo robo, sua interação com o mapa e os itens.
+/// Robo de coleta de jóias.
 /// </summary>
 public class Robot : ItemMap {
     public Map map {get; private set;}
@@ -20,9 +20,9 @@ public class Robot : ItemMap {
         this.map.Insert(this, x, y);
     }
     /// <summary>
-    /// Responsável pela movimentação.
+    /// Movimentacao do robo: GoUp, GoDown, GoRight, GoLeft.
     /// </summary>
-    public void MoveNorth(){
+    public void GoUp(){
         try
         {
             map.Update(this.x, this.y, this.x-1, this.y);
@@ -43,9 +43,9 @@ public class Robot : ItemMap {
         }
     }
     /// <summary>
-    /// Responsável pela movimentação.
+    /// GoDown: Descer as casas no mapa.
     /// </summary>
-    public void MoveSouth(){
+    public void GoDown(){
         try
         {
             map.Update(this.x, this.y, this.x+1, this.y);
@@ -66,9 +66,9 @@ public class Robot : ItemMap {
         }
     }
     /// <summary>
-    /// Responsável pela movimentação.
+    /// GoRight: Ir para direita nas casas no mapa.
     /// </summary>
-    public void MoveEast(){
+    public void GoRight(){
         try
         {
             map.Update(this.x, this.y, this.x, this.y+1);
@@ -89,9 +89,9 @@ public class Robot : ItemMap {
         }
     }
     /// <summary>
-    /// Responsável pela movimentação.
+    /// GoLeft: Ir para esquerda nas casas no mapa.
     /// </summary>
-    public void MoveWest(){
+    public void GoLeft(){
         try
         {
             map.Update(this.x, this.y, this.x, this.y-1);
@@ -112,18 +112,18 @@ public class Robot : ItemMap {
         }
     }
     /// <summary>
-    /// Responsável por recarregar a energia do robo.
+    /// GetJ: Fazer a recarga de energia para conseguir andar pelo mapa.
     /// </summary>
-    public void Get(){
+    public void GetJ(){
         //Console.Clear();
-        Rechargeable? RechargeEnergy = map.GetRechargeable(this.x, this.y);
+        Rechargeable? RechargeEnergy = map.RecarregaRobo(this.x, this.y);
         RechargeEnergy?.Recharge(this);
         List<Jewel> NearJewels = map.GetJewels(this.x, this.y);
         foreach (Jewel j in NearJewels)
             Bag.Add(j);
     }
     /// <summary>
-    /// Responsável por contar a quantidade de pontos.
+    /// Pontos acumulados na sacola.
     /// </summary>
     private (int, int) GetBagInfo()
     {
@@ -133,13 +133,13 @@ public class Robot : ItemMap {
         return (this.Bag.Count, Points);
     }
     /// <summary>
-    /// Responsável por imprimir a quantidade de itens, pontos e energia.
+    /// Imprimir energia, pontos e itens coletados na sacola.
     /// </summary>
     public void Print()
     {
-        map.Print();
+        map.PrintMap();
         (int ItensBag, int TotalPoints) = this.GetBagInfo();
-        Console.WriteLine($"\nItens Bag: {ItensBag} - Total Points: {TotalPoints} - Energy: {this.energy} - x:{this.x}, y: {this.y}\n\n");
+        Console.WriteLine($"\nSacola: {ItensBag} - Pontos: {TotalPoints} - Energia: {this.energy} - x:{this.x}, y: {this.y}\n\n");
     }
     public bool HasEnergy()
     {
@@ -148,7 +148,7 @@ public class Robot : ItemMap {
 }
 
 /// <summary>
-/// Responsável por recarregar a energia do robo.
+/// Fazer a recarga do robô.
 /// </summary>
 public interface Rechargeable
 {

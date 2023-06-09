@@ -1,6 +1,6 @@
 namespace Jewel_Collector;
 /// <summary>
-/// Classe responsável pelo itens do mapa, em específico os obstáculos.
+/// Para criar os obstáculos no mapa.
 /// </summary>
 public abstract class Obstacle : ItemMap {
     public Obstacle(string Symbol) : base(Symbol) {}

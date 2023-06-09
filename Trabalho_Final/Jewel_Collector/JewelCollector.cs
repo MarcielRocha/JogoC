@@ -5,19 +5,19 @@ namespace Jewel_Collector;
 using System;
 public class JewelCollector
 {
-    delegate void MoveNorth();
-    delegate void MoveSouth();
-    delegate void MoveEast();
+    
+    delegate void GoUp();
+    static event GoUp OnGoUp;
+    delegate void GoDown();
+    static event GoDown OnGoDown;
+    delegate void GoRight();
+    static event GoRight OnGoRight;
 
-    delegate void MoveWest();
-
-    static event MoveNorth OnMoveNorth;
-    static event MoveSouth OnMoveSouth;
-    static event MoveEast OnMoveEast;
-
-    static event MoveWest OnMoveWest;
-
-    static event MoveWest Get;
+    delegate void GoLeft();
+    static event GoLeft OnGoLeft;
+         
+    delegate void GetJ();
+    static event GetJ OnGet;
 
     /// <summary>
     /// Método principal, inicia o jogo.
@@ -62,11 +62,11 @@ public class JewelCollector
     /// </summary>
     private static bool Run(Robot robot)  
     {
-        OnMoveNorth += robot.MoveNorth;
-        OnMoveSouth += robot.MoveSouth;
-        OnMoveEast += robot.MoveEast;
-        OnMoveWest += robot.MoveWest;
-        Get += robot.Get;
+        OnGoUp += robot.GoUp;
+        OnGoDown += robot.GoDown;
+        OnGoRight += robot.GoRight;
+        OnGoLeft += robot.GoLeft;
+        OnGet += robot.GetJ;
 
         do {
             if(!robot.HasEnergy()) throw new RanOutOfEnergyException();
@@ -76,11 +76,11 @@ public class JewelCollector
 
             switch (command.Key.ToString())
             {
-                case "W": Console.WriteLine($"\n Comando:{command.Key.ToString()}"); OnMoveNorth() ; break;
-                case "S" : Console.WriteLine($"\n Comando:{command.Key.ToString()}"); OnMoveSouth() ; break;
-                case "D" : Console.WriteLine($"\n Comando:{command.Key.ToString()}"); OnMoveEast() ; break;
-                case "A" : Console.WriteLine($"\n Comando:{command.Key.ToString()}"); OnMoveWest() ; break;
-                case "G" : Console.WriteLine($"\n Comando:{command.Key.ToString()}"); Get() ; break;
+                case "W": Console.WriteLine($"\n Comando:{command.Key.ToString()}"); OnGoUp() ; break;
+                case "S" : Console.WriteLine($"\n Comando:{command.Key.ToString()}"); OnGoDown() ; break;
+                case "D" : Console.WriteLine($"\n Comando:{command.Key.ToString()}"); OnGoRight() ; break;
+                case "A" : Console.WriteLine($"\n Comando:{command.Key.ToString()}"); OnGoLeft() ; break;
+                case "G" : Console.WriteLine($"\n Comando:{command.Key.ToString()}"); OnGet() ; break;
                 case "Q" : return false;
                 default: Console.WriteLine($"\n Comando inválido:{command.Key.ToString()}"); break;
             }
@@ -88,4 +88,11 @@ public class JewelCollector
         return true;
     }
 
+}
+
+static class Constants
+{
+    public const int cCarga10 = 10;
+    public const int cCarga50 = 50;
+    public const int cCarga100 = 100;
 }

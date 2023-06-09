@@ -2,49 +2,49 @@ namespace Jewel_Collector;
 /// <summary>
 /// Map - Classe geradora pelo mapa.
 /// </summary>
-public class Map
-{
-    private ItemMap[,] Matriz;
-    public int x {get; private set;}
-    public int y {get; private set;}
+public class Map{
+    private ItemMap[,] MapaJogo;
+    public int h {get; private set;}
+    public int w {get; private set;}
 
     /// <summary>
-    /// Classe mapa.
+    /// Classe reponsável por gerar o mapa com tamanho 10x10.
+    /// Posteriormente conforme avança, incrementa +1 ao tamanho do mapa, até o limite 30x30.
     /// </summary>
-    public Map (int x=10, int y=10, int level=1)
+    public Map (int w=10, int h=10, int level=1)
     {
-        this.x = x <= 30 ? x : 30;
-        this.y = y <= 30 ? y : 30;
-        Matriz = new ItemMap[x, y];
-        for (int i = 0; i < Matriz.GetLength(0); i++) {
-            for (int j = 0; j < Matriz.GetLength(1); j++) {
-                Matriz[i, j] = new Empty();
+        this.w = w <= 30 ? w : 30;
+        this.h = h <= 30 ? h : 30;
+        MapaJogo = new ItemMap[w, h];
+        for (int i = 0; i < MapaJogo.GetLength(0); i++) {
+            for (int j = 0; j < MapaJogo.GetLength(1); j++) {
+                MapaJogo[i, j] = new PreencheVazio();
             }
         }
-        if (level == 1) GenerateFixed();
-        else GenerateRandom();
+        if (level == 1) RoundOne();
+        else NextRounds();
     }
     /// <summary>
-    /// Responsável por posicionar itens no mapa dentro da matriz.
+    /// Responsável por posicionar itens no mapa dentro da MapaJogo.
     /// </summary>
     public void Insert (ItemMap Item, int x, int y)
     {
-        Matriz[x, y] = Item;
+        MapaJogo[x, y] = Item;
     }
     /// <summary>
     /// Responsável por atualizar o Status do mapa.
     /// </summary>
     public void Update(int x_old, int y_old, int x, int y)
     {
-        if (x < 0 || y < 0 || x> this.x-1 || y> this.y-1)
+        if (x < 0 || y < 0 || x> this.w-1 || y> this.h-1)
         {
-            Console.WriteLine($"\nOutOfMapException:x({x}) > w({this.x-1}) ou y({y}) > h({this.y-1})");
+            Console.WriteLine($"\nOutOfMapException:x({x}) > w({this.w-1}) ou y({y}) > h({this.w-1})");
             throw new OutOfMapException();
         }
-        if (IsAllowed(x, y))
+        if (CasaVazia(x, y))
         {
-            Matriz[x, y] = Matriz[x_old, y_old];
-            Matriz[x_old, y_old] = new Empty();
+            MapaJogo[x, y] = MapaJogo[x_old, y_old];
+            MapaJogo[x_old, y_old] = new PreencheVazio();
         }
         else
         {
@@ -58,10 +58,12 @@ public class Map
     /// </summary>
     public List<Jewel> GetJewels(int x, int y){
         List<Jewel> NearJewels = new List<Jewel>();
-        int[,] Coords = GenerateCoord(x, y);
+        int[,] Coords = GeraCoordenadas(x, y);
         for (int i = 0; i < Coords.GetLength(0); i++){
-            Jewel? jewel = GetJewel(Coords[i, 0], Coords[i, 1]);
-            if (jewel is not null) NearJewels.Add(jewel);
+         Jewel? jewel = GetJewel(Coords[i, 0], Coords[i, 1]);
+            if (jewel is not null) {
+                NearJewels.Add(jewel);
+            }
         }
         return NearJewels;
     }
@@ -70,9 +72,9 @@ public class Map
     /// </summary>
     private Jewel? GetJewel(int x, int y)
     {
-        if (Matriz[x, y] is Jewel jewel)
+        if (MapaJogo[x, y] is Jewel jewel)
         {
-            Matriz[x, y] = new Empty();
+            MapaJogo[x, y] = new PreencheVazio();
             return jewel;
         }
         return null;
@@ -80,44 +82,44 @@ public class Map
     /// <summary>
     /// Responsável por incrementar a energia do robo conforme coletados itens válidos.
     /// </summary>
-    public Rechargeable? GetRechargeable(int x, int y){
-        int[,] Coords = GenerateCoord(x, y);
+    public Rechargeable? RecarregaRobo(int x, int y){
+        int[,] Coords = GeraCoordenadas(x, y);
         for (int i = 0; i < Coords.GetLength(0); i++)
-            if (Matriz[Coords[i, 0], Coords[i, 1]] is Rechargeable r) return r;
+            if (MapaJogo[Coords[i, 0], Coords[i, 1]] is Rechargeable r) return r;
         return null;
     }
     /// <summary>
     /// Responsável por Gerar coordenadas.
     /// </summary>
-    private int[,] GenerateCoord(int i, int j)
+    private int[,] GeraCoordenadas(int x, int y)
     {
         int[,] Coords = new int[4, 2]{
-            {i,  j+1 < x-1 ? j+1 : x-1},
-            {i, j-1 > 0 ? j-1 : 0},
-            {i+1 < y-1 ? i+1 : y-1, j},
-            {i-1 > 0 ? i-1 : 0, j}
+            {x,  y+1 < w-1 ? y+1 : w-1},
+            {x, y-1 > 0 ? y-1 : 0},
+            {x+1 < h-1 ? x+1 : h-1, y},
+            {x-1 > 0 ? x-1 : 0, y}
         };
         return Coords;
     }
     /// <summary>
     /// Booleana que verifica se a posição está vazia e permitida para robo transitar.
     /// </summary>
-    private bool IsAllowed(int x, int y){
-        return Matriz[x, y] is Empty;
+    private bool CasaVazia(int x, int y){
+        return MapaJogo[x, y] is PreencheVazio;
     }
-    public void Print() {
-        for (int i = 0; i < Matriz. GetLength(0); i++){
-            for (int j = 0; j < Matriz.GetLength(1); j++){
-                Console.Write(Matriz[i, j]);
+    public void PrintMap() {
+        for (int i = 0; i < MapaJogo. GetLength(0); i++){
+            for (int j = 0; j < MapaJogo.GetLength(1); j++){
+                Console.Write(MapaJogo[i, j]);
             }
             Console.Write("\n");
         }
     }
     public bool IsDone()
     {
-        for (int i = 0; i < Matriz.GetLength(0); i++) {
-            for (int j= 0; j < Matriz.GetLength(1); j++){
-                if (Matriz[i, j] is Jewel) return false;
+        for (int i = 0; i < MapaJogo.GetLength(0); i++) {
+            for (int j= 0; j < MapaJogo.GetLength(1); j++){
+                if (MapaJogo[i, j] is Jewel) return false;
             }
         }
         return true;
@@ -125,14 +127,14 @@ public class Map
     /// <summary>
     /// Gera a posição inicial das Joias, água e árvores no primeiro nível.
     /// </summary>
-    private void GenerateFixed()
+    private void RoundOne()
     {
-        this.Insert(new JewelRed(), 1, 9);
-        this.Insert(new JewelRed(), 8, 8);
-        this.Insert(new JewelGreen(), 9, 1);
-        this.Insert(new JewelGreen(), 7, 6);
-        this.Insert(new JewelBlue(), 3, 4);
-        this.Insert(new JewelBlue(), 2, 1);
+
+        this.Insert(new Tree(), 5, 9);
+        this.Insert(new Tree(), 3, 9);
+        this.Insert(new Tree(), 8, 3);
+        this.Insert(new Tree(), 2, 5);
+        this.Insert(new Tree(), 1, 4);
 
         this.Insert(new Water(), 5, 0);
         this.Insert(new Water(), 5, 1);
@@ -141,51 +143,53 @@ public class Map
         this.Insert(new Water(), 5, 4);
         this.Insert(new Water(), 5, 5);
         this.Insert(new Water(), 5, 6);
-        this.Insert(new Tree(), 5, 9);
-        this.Insert(new Tree(), 3, 9);
-        this.Insert(new Tree(), 8, 3);
-        this.Insert(new Tree(), 2, 5);
-        this.Insert(new Tree(), 1, 4);
+
+        this.Insert(new JewelGreen(), 9, 1);
+        this.Insert(new JewelGreen(), 7, 6);
+        this.Insert(new JewelBlue(), 3, 4);
+        this.Insert(new JewelBlue(), 2, 1);
+        this.Insert(new JewelRed(), 1, 9);
+        this.Insert(new JewelRed(), 8, 8);
+
     }
     /// <summary>
     /// Gera posição aleatória dos itens do mapa no nível 2 em diante.
     /// </summary>
-    private void GenerateRandom()
+    private void NextRounds()
     {
         Random r = new Random(1);
-        for(int i = 0; i < 3; i++)
-        {
-            int xRandom = r.Next(0, x);
-            int yRandom = r.Next(0, y);
-            this.Insert(new JewelBlue(), xRandom, yRandom);
-        }
-        for(int i = 0; i < 3; i++)
-        {
-            int xRandom = r.Next(0, x);
-            int yRandom = r.Next(0, y);
-            this.Insert(new JewelGreen(), xRandom, yRandom);
-        }
-        for(int i = 0; i < 3; i++)
-        {
-            int xRandom = r.Next(0, x);
-            int yRandom = r.Next(0, y);
-            this.Insert(new JewelRed(), xRandom, yRandom);
-        }
-        for(int i = 0; i < 10; i++)
-        {
-            int xRandom = r.Next(0, x);
-            int yRandom = r.Next(0, y);
-            this.Insert(new Water(), xRandom, yRandom);
-        }
-        for(int i = 0; i < 10; i++)
-        {
-            int xRandom = r.Next(0, x);
-            int yRandom = r.Next(0, y);
-            this.Insert(new Tree(), xRandom, yRandom);
-        }
+        this.Insert(new Water(), r.Next(0, w), r.Next(0, h));
+        this.Insert(new Water(), r.Next(0, w), r.Next(0, h));
+        this.Insert(new Water(), r.Next(0, w), r.Next(0, h));
+        this.Insert(new Water(), r.Next(0, w), r.Next(0, h));
+        this.Insert(new Water(), r.Next(0, w), r.Next(0, h));
+        this.Insert(new Water(), r.Next(0, w), r.Next(0, h));
+        this.Insert(new Water(), r.Next(0, w), r.Next(0, h));
+        this.Insert(new Water(), r.Next(0, w), r.Next(0, h));
+        this.Insert(new Water(), r.Next(0, w), r.Next(0, h));
+        this.Insert(new Water(), r.Next(0, w), r.Next(0, h));
+        
+        this.Insert(new Tree(), r.Next(0, w), r.Next(0, h));
+        this.Insert(new Tree(), r.Next(0, w), r.Next(0, h));
+        this.Insert(new Tree(), r.Next(0, w), r.Next(0, h));
+        this.Insert(new Tree(), r.Next(0, w), r.Next(0, h));
+        this.Insert(new Tree(), r.Next(0, w), r.Next(0, h));
+        this.Insert(new Tree(), r.Next(0, w), r.Next(0, h));
+        this.Insert(new Tree(), r.Next(0, w), r.Next(0, h));
+        this.Insert(new Tree(), r.Next(0, w), r.Next(0, h));
+        this.Insert(new Tree(), r.Next(0, w), r.Next(0, h));
+        this.Insert(new Tree(), r.Next(0, w), r.Next(0, h));
+
+        this.Insert(new JewelRed(), r.Next(0, w), r.Next(0, h));
+        this.Insert(new JewelRed(), r.Next(0, w), r.Next(0, h));
+        this.Insert(new JewelRed(), r.Next(0, w), r.Next(0, h));
+        this.Insert(new JewelBlue(), r.Next(0, w), r.Next(0, h));
+        this.Insert(new JewelBlue(), r.Next(0, w), r.Next(0, h));
+        this.Insert(new JewelBlue(), r.Next(0, w), r.Next(0, h));
+        this.Insert(new JewelGreen(), r.Next(0, w), r.Next(0, h));
+        this.Insert(new JewelGreen(), r.Next(0, w), r.Next(0, h));
+        this.Insert(new JewelGreen(), r.Next(0, w), r.Next(0, h));
     }
-
-
 }
 
 /// <summary>
@@ -206,8 +210,8 @@ public abstract class ItemMap {
 /// <summary>
 /// Classe pública responsável pelos itens vázios do mapa.
 /// </summary>
-public class Empty : ItemMap {
-    public Empty() : base("-- "){}
+public class PreencheVazio : ItemMap {
+    public PreencheVazio() : base("-- "){}
 }
 
 /// <summary>
@@ -223,8 +227,6 @@ public class Tree : Obstacle, Rechargeable {
     /// </summary>
     public void Recharge(Robot r)
     {
-        r.energy++;
-        r.energy++;
-        r.energy++;
+        r.energy = r.energy+3;
     }
 }
