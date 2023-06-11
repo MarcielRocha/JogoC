@@ -1,6 +1,7 @@
 namespace Jewel_Collector;
 /// <summary>
-/// Map - Classe geradora pelo mapa.
+/// Classe: Map
+/// Objetivo: Persitir o mapa para ser navegável.
 /// </summary>
 public class Map{
     private Cell[,] MapaJogo;
@@ -8,8 +9,8 @@ public class Map{
     public int w {get; private set;}
 
     /// <summary>
-    /// Classe reponsável por gerar o mapa com tamanho 10x10.
-    /// Posteriormente conforme avança, incrementa +1 ao tamanho do mapa, até o limite 30x30.
+    /// Método Map
+    /// Objetivo: Peponsável por gerar o mapa com tamanho 10x10. Depois incrementa +1 ao tamanho do mapa, até o limite 30x30.
     /// </summary>
     public Map (int w=10, int h=10, int level=1)
     {
@@ -25,14 +26,17 @@ public class Map{
         else NextRounds();
     }
     /// <summary>
-    /// Responsável por posicionar itens no mapa dentro da MapaJogo.
+    /// Método Insert
+    /// Objetivo: Inserir itens no mapa dentro do MapaJogo na posição x, y.
     /// </summary>
     public void Insert (Cell Item, int x, int y)
     {
         MapaJogo[x, y] = Item;
     }
+
     /// <summary>
-    /// Responsável por atualizar o Status do mapa.
+    /// Método Update
+    /// Objetivo: Atualizar o Status do mapa.
     /// </summary>
     public void Update(int x_old, int y_old, int x, int y)
     {
@@ -54,7 +58,8 @@ public class Map{
         }
     }
     /// <summary>
-    /// Responsável por atualizar a quantidade de Jóias coletadas.
+    /// Método GetJewels
+    /// Objetivo: Atualizar a quantidade de Jóias coletadas.
     /// </summary>
     public List<Jewel> GetJewels(int x, int y){
         List<Jewel> NearJewels = new List<Jewel>();
@@ -68,7 +73,8 @@ public class Map{
         return NearJewels;
     }
     /// <summary>
-    /// Responsável por atualizar a posição do mapa onde havia a joia para um item vazio.
+    /// Método GetJewel
+    /// Objetivo: Atualizar a posição do mapa onde havia a joia para um item vazio.
     /// </summary>
     private Jewel? GetJewel(int x, int y)
     {
@@ -80,7 +86,8 @@ public class Map{
         return null;
     }
     /// <summary>
-    /// Responsável por incrementar a energia do robo conforme coletados itens válidos.
+    /// Método RecarregaRobo
+    /// Objetivo: Incrementar a energia do robo conforme coletados itens válidos.
     /// </summary>
     public Rechargeable? RecarregaRobo(int x, int y){
         int[,] Coords = GeraCoordenadas(x, y);
@@ -89,7 +96,8 @@ public class Map{
         return null;
     }
     /// <summary>
-    /// Responsável por Gerar coordenadas.
+    /// Método GeraCoordenadas
+    /// Objetivo: Gerar coordenadas.
     /// </summary>
     private int[,] GeraCoordenadas(int x, int y)
     {
@@ -101,12 +109,18 @@ public class Map{
         };
         return Coords;
     }
-    /// <summary>q
-    /// Booleana que verifica se a posição está vazia e permitida para robo transitar.
+    /// <summary>
+    /// Método CasaVazia
+    /// Objetivo: Verifica se a posição está vazia e permitida para robo transitar.
     /// </summary>
     private bool CasaVazia(int x, int y){
         return MapaJogo[x, y] is PreencheVazio;
     }
+
+    /// <summary>
+    /// Método PrintMap
+    /// Objetivo: Imprimir via console o mapa, colorindo conforme tipo de objeto.
+    /// </summary>
     public void PrintMap() {
         Console.Clear();
         for (int i = 0; i < MapaJogo.GetLength(0); i++){
@@ -123,6 +137,11 @@ public class Map{
             Console.Write("\n");
         }
     }
+
+    /// <summary>
+    /// Método IsDone
+    /// Objetivo: Sinalizar que todas as jóias foram coletadas.
+    /// </summary>
     public bool IsDone()
     {
         for (int i = 0; i < MapaJogo.GetLength(0); i++) {
@@ -133,7 +152,8 @@ public class Map{
         return true;
     }
     /// <summary>
-    /// Gera a posição inicial das Joias, água e árvores no primeiro nível.
+    /// Método RoudOne
+    /// Objetivo: Define os itens no mapa nas posições indicadas. Será utilizado na primeira rodada.
     /// </summary>
     private void RoundOne()
     {
@@ -161,11 +181,22 @@ public class Map{
 
     }
     /// <summary>
-    /// Gera posição aleatória dos itens do mapa no nível 2 em diante.
+    /// Método NextRounds
+    /// Objetivo: Posicionar jóias de maneira aleatória. Será utilizado na rodada 2 em diante.
     /// </summary>
     private void NextRounds()
     {
         Random r = new Random(1);
+        this.Insert(new JewelRed(), r.Next(0, w), r.Next(0, h));
+        this.Insert(new JewelRed(), r.Next(0, w), r.Next(0, h));
+        this.Insert(new JewelRed(), r.Next(0, w), r.Next(0, h));
+        this.Insert(new JewelBlue(), r.Next(0, w), r.Next(0, h));
+        this.Insert(new JewelBlue(), r.Next(0, w), r.Next(0, h));
+        this.Insert(new JewelBlue(), r.Next(0, w), r.Next(0, h));
+        this.Insert(new JewelGreen(), r.Next(0, w), r.Next(0, h));
+        this.Insert(new JewelGreen(), r.Next(0, w), r.Next(0, h));
+        this.Insert(new JewelGreen(), r.Next(0, w), r.Next(0, h));
+                
         this.Insert(new Water(), r.Next(0, w), r.Next(0, h));
         this.Insert(new Water(), r.Next(0, w), r.Next(0, h));
         this.Insert(new Water(), r.Next(0, w), r.Next(0, h));
@@ -188,20 +219,13 @@ public class Map{
         this.Insert(new Tree(), r.Next(0, w), r.Next(0, h));
         this.Insert(new Tree(), r.Next(0, w), r.Next(0, h));
 
-        this.Insert(new JewelRed(), r.Next(0, w), r.Next(0, h));
-        this.Insert(new JewelRed(), r.Next(0, w), r.Next(0, h));
-        this.Insert(new JewelRed(), r.Next(0, w), r.Next(0, h));
-        this.Insert(new JewelBlue(), r.Next(0, w), r.Next(0, h));
-        this.Insert(new JewelBlue(), r.Next(0, w), r.Next(0, h));
-        this.Insert(new JewelBlue(), r.Next(0, w), r.Next(0, h));
-        this.Insert(new JewelGreen(), r.Next(0, w), r.Next(0, h));
-        this.Insert(new JewelGreen(), r.Next(0, w), r.Next(0, h));
-        this.Insert(new JewelGreen(), r.Next(0, w), r.Next(0, h));
+
     }
 }
 
 /// <summary>
-/// Classe dos itens Jewels e espaços.
+/// Classe abstrata Cell
+/// Objetivo: Possibilitar que as classes de espaços vazios,  joias, árvores e obstáculos sejam interligadas.
 /// </summary>
 public abstract class Cell {
     private string Symbol;
@@ -216,23 +240,21 @@ public abstract class Cell {
 }
 
 /// <summary>
-/// Classe pública responsável pelos itens vázios do mapa.
+/// Classe pública Cell
+/// Objetivo: Instanciar espaços vazios no mapa.
 /// </summary>
 public class PreencheVazio : Cell {
     public PreencheVazio() : base("-- "){}
 }
 
 /// <summary>
-/// Obstáculo Árvore com recarga de 3 pontos de energia.
+/// Classe Tree
+/// Objetivo: Instanciar árvores com recarga de 3 pontos de energia.
 /// </summary>
 public class Tree : Obstacle, Rechargeable {
-    /// <summary>
-    /// Atribui simbolo da árvore.
-    /// </summary>
+
     public Tree() : base("$$ ") {}
-    /// <summary>
-    /// Incrementa energia ao estar pressionar "G" junto a árvore.
-    /// </summary>
+
     public void Recharge(Robot r)
     {
         r.energy = r.energy+3;

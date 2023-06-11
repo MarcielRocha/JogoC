@@ -1,7 +1,8 @@
 namespace Jewel_Collector;
 
 /// <summary>
-/// Robo de coleta de jóias.
+/// Classe Robot
+/// Objetivo: Navegar pelo mapa e coletar jóias.
 /// </summary>
 public class Robot : Cell {
     public Map map {get; private set;}
@@ -10,7 +11,8 @@ public class Robot : Cell {
     public int energy {get; set;}
     
     /// <summary>
-    /// Responsável por colocar o robo em sua posição inicial, atribuir energia que inicia o nível.
+    /// Método Robot
+    /// Objetivo: Responsável por colocar o robo em sua posição inicial, atribuir energia que inicia o nível.
     /// </summary>
     public Robot(Map map, int x=0, int y=0, int energy=5) : base("ME "){
         this.map = map;
@@ -19,8 +21,10 @@ public class Robot : Cell {
         this.energy = energy;
         this.map.Insert(this, x, y);
     }
+
     /// <summary>
-    /// Movimentacao do robo: GoUp, GoDown, GoRight, GoLeft.
+    /// Método GoUp
+    /// Objetivo: Movimentacao do robo: GoUp, GoDown, GoRight, GoLeft.
     /// </summary>
     public void GoUp(){
         try
@@ -37,7 +41,7 @@ public class Robot : Cell {
         catch (OutOfMapException e)
         {
             Console.WriteLine($"\nPosição {this.x-1}, {this.y} está fora do mapa");
-            Console.ReadLine();
+           // Console.ReadLine();
         }
         catch (Exception e)
         {
@@ -45,7 +49,8 @@ public class Robot : Cell {
         }
     }
     /// <summary>
-    /// GoDown: Descer as casas no mapa.
+    /// Método GoDown
+    /// Objetivo: Descer as casas no mapa.
     /// </summary>
     public void GoDown(){
         try
@@ -57,12 +62,12 @@ public class Robot : Cell {
         catch (OccupiedPositionException e)
         {
             Console.WriteLine($"\nPosição {this.x+1}, {this.y} está ocupada");
-            Console.ReadLine();
+       //     Console.ReadLine();
         }
         catch (OutOfMapException e)
         {
             Console.WriteLine($"\nPosição {this.x+1}, {this.y} está fora do mapa");
-            Console.ReadLine();
+          //  Console.ReadLine();
         }
         catch (Exception e)
         {
@@ -71,7 +76,8 @@ public class Robot : Cell {
         }
     }
     /// <summary>
-    /// GoRight: Ir para direita nas casas no mapa.
+    /// Método GoRight
+    /// Objetivo: Ir para direita nas casas no mapa.
     /// </summary>
     public void GoRight(){
         try
@@ -83,12 +89,12 @@ public class Robot : Cell {
         catch (OccupiedPositionException e)
         {
             Console.WriteLine($"\nPosição {this.x}, {this.y+1} está ocupada");
-            Console.ReadLine();
+       //     Console.ReadLine();
         }
         catch (OutOfMapException e)
         {
             Console.WriteLine($"\nPosição {this.x}, {this.y+1} fora do mapa");
-            Console.ReadLine();
+      //      Console.ReadLine();
         }
         catch (Exception e)
         {
@@ -97,7 +103,8 @@ public class Robot : Cell {
         }
     }
     /// <summary>
-    /// GoLeft: Ir para esquerda nas casas no mapa.
+    /// Método GoLeft
+    /// Objetivo: Ir para esquerda nas casas no mapa.
     /// </summary>
     public void GoLeft(){
         try
@@ -114,7 +121,7 @@ public class Robot : Cell {
         catch (OutOfMapException e)
         {
             Console.WriteLine($"\nPosição {this.x}, {this.y-1} fora do mapa");
-            Console.ReadLine();
+       //     Console.ReadLine();
         }
         catch (Exception e)
         {
@@ -123,7 +130,8 @@ public class Robot : Cell {
         }
     }
     /// <summary>
-    /// GetJ: Fazer a recarga de energia para conseguir andar pelo mapa.
+    /// Método GetJ
+    /// Objetivo: Fazer a recarga de energia para conseguir andar pelo mapa.
     /// </summary>
     public void GetJ(){
         //Console.Clear();
@@ -134,7 +142,8 @@ public class Robot : Cell {
             Bag.Add(j);
     }
     /// <summary>
-    /// Pontos acumulados na sacola.
+    /// Método GetBagInfo
+    /// Objetivo: Pontos acumulados na sacola.
     /// </summary>
     private (int, int) GetBagInfo()
     {
@@ -144,7 +153,8 @@ public class Robot : Cell {
         return (this.Bag.Count, Points);
     }
     /// <summary>
-    /// Imprimir energia, pontos e itens coletados na sacola.
+    /// Método Print
+    /// Objetivo: Imprimir energia, pontos e itens coletados na sacola.
     /// </summary>
     public void Print()
     {
@@ -158,9 +168,7 @@ public class Robot : Cell {
     }
 }
 
-/// <summary>
-/// Fazer a recarga do robô.
-/// </summary>
+
 public interface Rechargeable
 {
     public void Recharge(Robot r);
