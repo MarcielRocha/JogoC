@@ -3,7 +3,7 @@ namespace Jewel_Collector;
 /// <summary>
 /// Joia que sera capturada no jogo e pontuacao acumulada.
 /// </summary>
-public abstract class Jewel : ItemMap {
+public abstract class Jewel : Cell {
     public int Points {get; private set;}
     public Jewel(string Symbol, int Points) : base(Symbol)
     {

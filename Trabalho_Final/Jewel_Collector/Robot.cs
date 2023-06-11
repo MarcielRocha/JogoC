@@ -3,7 +3,7 @@ namespace Jewel_Collector;
 /// <summary>
 /// Robo de coleta de jóias.
 /// </summary>
-public class Robot : ItemMap {
+public class Robot : Cell {
     public Map map {get; private set;}
     private int x, y;
     private List<Jewel> Bag = new List<Jewel>();
@@ -31,15 +31,17 @@ public class Robot : ItemMap {
         }
         catch (OccupiedPositionException e)
         {
-            Console.WriteLine($"\nPosition {this.x-1}, {this.y} is occupied");
+            Console.WriteLine($"\nPosição {this.x-1}, {this.y} está ocupada");
+            Console.ReadLine();
         }
         catch (OutOfMapException e)
         {
-            Console.WriteLine($"\nPosition {this.x-1}, {this.y} is out of map");
+            Console.WriteLine($"\nPosição {this.x-1}, {this.y} está fora do mapa");
+            Console.ReadLine();
         }
         catch (Exception e)
         {
-            Console.WriteLine($"\nPosition is prohibit");
+            Console.WriteLine($"\nPosição não permitida");
         }
     }
     /// <summary>
@@ -54,15 +56,18 @@ public class Robot : ItemMap {
         }
         catch (OccupiedPositionException e)
         {
-            Console.WriteLine($"\nPosition {this.x+1}, {this.y} is occupied");
+            Console.WriteLine($"\nPosição {this.x+1}, {this.y} está ocupada");
+            Console.ReadLine();
         }
         catch (OutOfMapException e)
         {
-            Console.WriteLine($"\nPosition {this.x+1}, {this.y} is out of map");
+            Console.WriteLine($"\nPosição {this.x+1}, {this.y} está fora do mapa");
+            Console.ReadLine();
         }
         catch (Exception e)
         {
-            Console.WriteLine($"\nPosition is prohibit");
+            Console.WriteLine($"\nPosição não permitida");
+            Console.ReadLine();
         }
     }
     /// <summary>
@@ -77,15 +82,18 @@ public class Robot : ItemMap {
         }
         catch (OccupiedPositionException e)
         {
-            Console.WriteLine($"\nPosition {this.x}, {this.y+1} is occupied");
+            Console.WriteLine($"\nPosição {this.x}, {this.y+1} está ocupada");
+            Console.ReadLine();
         }
         catch (OutOfMapException e)
         {
-            Console.WriteLine($"\nPosition {this.x}, {this.y+1} is out of map");
+            Console.WriteLine($"\nPosição {this.x}, {this.y+1} fora do mapa");
+            Console.ReadLine();
         }
         catch (Exception e)
         {
-            Console.WriteLine($"\nPosition is prohibit");
+            Console.WriteLine($"\nPosição não permitida");
+            Console.ReadLine();
         }
     }
     /// <summary>
@@ -100,15 +108,18 @@ public class Robot : ItemMap {
         }
         catch (OccupiedPositionException e)
         {
-            Console.WriteLine($"\nPosition {this.x}, {this.y-1} está ocupada");
+            Console.WriteLine($"\nPosição {this.x}, {this.y-1} está ocupada");
+            Console.ReadLine();
         }
         catch (OutOfMapException e)
         {
-            Console.WriteLine($"\nPosition {this.x}, {this.y-1} está fora do mapa");
+            Console.WriteLine($"\nPosição {this.x}, {this.y-1} fora do mapa");
+            Console.ReadLine();
         }
         catch (Exception e)
         {
-            Console.WriteLine($"\nPosition é proibida");
+            Console.WriteLine($"\nPosição não permitida");
+            Console.ReadLine();
         }
     }
     /// <summary>

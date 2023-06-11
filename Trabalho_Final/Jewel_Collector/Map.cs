@@ -3,7 +3,7 @@ namespace Jewel_Collector;
 /// Map - Classe geradora pelo mapa.
 /// </summary>
 public class Map{
-    private ItemMap[,] MapaJogo;
+    private Cell[,] MapaJogo;
     public int h {get; private set;}
     public int w {get; private set;}
 
@@ -15,7 +15,7 @@ public class Map{
     {
         this.w = w <= 30 ? w : 30;
         this.h = h <= 30 ? h : 30;
-        MapaJogo = new ItemMap[w, h];
+        MapaJogo = new Cell[w, h];
         for (int i = 0; i < MapaJogo.GetLength(0); i++) {
             for (int j = 0; j < MapaJogo.GetLength(1); j++) {
                 MapaJogo[i, j] = new PreencheVazio();
@@ -27,7 +27,7 @@ public class Map{
     /// <summary>
     /// Responsável por posicionar itens no mapa dentro da MapaJogo.
     /// </summary>
-    public void Insert (ItemMap Item, int x, int y)
+    public void Insert (Cell Item, int x, int y)
     {
         MapaJogo[x, y] = Item;
     }
@@ -101,13 +101,14 @@ public class Map{
         };
         return Coords;
     }
-    /// <summary>
+    /// <summary>q
     /// Booleana que verifica se a posição está vazia e permitida para robo transitar.
     /// </summary>
     private bool CasaVazia(int x, int y){
         return MapaJogo[x, y] is PreencheVazio;
     }
     public void PrintMap() {
+        Console.Clear();
         for (int i = 0; i < MapaJogo.GetLength(0); i++){
             for (int j = 0; j < MapaJogo.GetLength(1); j++){
                 if(MapaJogo[i, j] is JewelRed) Console.ForegroundColor= ConsoleColor.Red;
@@ -202,9 +203,9 @@ public class Map{
 /// <summary>
 /// Classe dos itens Jewels e espaços.
 /// </summary>
-public abstract class ItemMap {
+public abstract class Cell {
     private string Symbol;
-    public ItemMap(string Symbol)
+    public Cell(string Symbol)
     {
         this.Symbol = Symbol;
     }
@@ -217,7 +218,7 @@ public abstract class ItemMap {
 /// <summary>
 /// Classe pública responsável pelos itens vázios do mapa.
 /// </summary>
-public class PreencheVazio : ItemMap {
+public class PreencheVazio : Cell {
     public PreencheVazio() : base("-- "){}
 }
 
