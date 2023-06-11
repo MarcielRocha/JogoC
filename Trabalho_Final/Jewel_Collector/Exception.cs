@@ -1,7 +1,10 @@
 namespace Jewel_Collector;
 
 /// <summary>
-/// Tratamento de erros personalizados do jogo.
+/// OutOfMapException
+/// OccupiedPositionException
+/// RanOutOfEnergyException
+/// Objetivo: Classes de tratamento de erros personalizados
 /// </summary>
 public class OutOfMapException : Exception {}
 public class OccupiedPositionException : Exception {}
