@@ -18,7 +18,7 @@ public class JewelCollector
     static event GoLeft OnGoLeft;
          
     delegate void GetJ();
-    static event GetJ OnGet;
+    static  event GetJ OnGet;
 
     /// <summary>
     /// Método inicial Main
@@ -28,16 +28,16 @@ public class JewelCollector
       {
             bool running = true;
             bool gonextlevel = false;
-            int w = 10;
-            int h = 10;
+            int largura = 10;
+            int altura = 10;
             int level = 1;
 
            
             do 
             {
 
-                Map map = new Map (w, h, level);
-                Robot robot = new Robot(map);
+                Map map2 = new Map(largura, altura, level);
+                Robot robot = new Robot(map2);
 
                 OnGoUp += robot.GoUp;
                 OnGoDown += robot.GoDown;
@@ -55,7 +55,7 @@ public class JewelCollector
                         Console.WriteLine("\n Digite o comando(W,S,D,A,G,Q): ");
                         ConsoleKeyInfo command = Console.ReadKey(true);
 
-                        gonextlevel = robot.map.IsDone(); //Terminou de coletar objetos
+                        gonextlevel = robot.map2.IsDone(); //Terminou de coletar objetos
 
                         switch (command.Key.ToString())
                         {
@@ -78,20 +78,25 @@ public class JewelCollector
 
                if(gonextlevel)
                {
-                w++;
-                h++;
+                largura++;
+                altura++;
                 level++;
+                gonextlevel = false;
+                OnGoUp = null;
+                OnGoDown = null;
+                OnGoRight = null;
+                OnGoLeft = null;
+                OnGet = null;
+        
                 Console.WriteLine($"Parabéns! Estágio: {level} liberado!");
                 Console.ReadLine();
+                Console.Clear();
                }
 
                if(!running)
                {
                 Console.WriteLine($"Obrigado pela participação!");
                }
-
-
-                
             } while (running);
         }
 }

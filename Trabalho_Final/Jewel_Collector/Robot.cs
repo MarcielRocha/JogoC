@@ -5,7 +5,7 @@ namespace Jewel_Collector;
 /// Objetivo: Navegar pelo mapa e coletar jóias.
 /// </summary>
 public class Robot : Cell {
-    public Map map {get; private set;}
+    public Map map2 {get; set;}
     private int x, y;
     private List<Jewel> Bag = new List<Jewel>();
     public int energy {get; set;}
@@ -15,11 +15,11 @@ public class Robot : Cell {
     /// Objetivo: Responsável por colocar o robo em sua posição inicial, atribuir energia que inicia o nível.
     /// </summary>
     public Robot(Map map, int x=0, int y=0, int energy=5) : base("ME "){
-        this.map = map;
-        this.x = x;
-        this.y = y;
+        this.map2 = map;
+        this.x = 0;
+        this.y = 0;
         this.energy = energy;
-        this.map.Insert(this, x, y);
+        this.map2.Insert(this, x, y);
     }
 
     /// <summary>
@@ -29,7 +29,7 @@ public class Robot : Cell {
     public void GoUp(){
         try
         {
-            map.Update(this.x, this.y, this.x-1, this.y);
+            this.map2.Update(this.x, this.y, this.x-1, this.y);
             this.x--;
             this.energy--;
         }
@@ -41,11 +41,11 @@ public class Robot : Cell {
         catch (OutOfMapException e)
         {
             Console.WriteLine($"\nPosição {this.x-1}, {this.y} está fora do mapa");
-           // Console.ReadLine();
+            Console.ReadLine();
         }
         catch (Exception e)
         {
-            Console.WriteLine($"\nPosição não permitida");
+            Console.WriteLine($"\n{e.ToString()}");
         }
     }
     /// <summary>
@@ -55,23 +55,23 @@ public class Robot : Cell {
     public void GoDown(){
         try
         {
-            map.Update(this.x, this.y, this.x+1, this.y);
+            this.map2.Update(this.x, this.y, this.x+1, this.y);
             this.x++;
             this.energy--;
         }
         catch (OccupiedPositionException e)
         {
             Console.WriteLine($"\nPosição {this.x+1}, {this.y} está ocupada");
-       //     Console.ReadLine();
+            Console.ReadLine();
         }
         catch (OutOfMapException e)
         {
             Console.WriteLine($"\nPosição {this.x+1}, {this.y} está fora do mapa");
-          //  Console.ReadLine();
+            Console.ReadLine();
         }
         catch (Exception e)
         {
-            Console.WriteLine($"\nPosição não permitida");
+            Console.WriteLine($"\n{e.ToString()}");
             Console.ReadLine();
         }
     }
@@ -82,23 +82,23 @@ public class Robot : Cell {
     public void GoRight(){
         try
         {
-            map.Update(this.x, this.y, this.x, this.y+1);
+            this.map2.Update(this.x, this.y, this.x, this.y+1);
             this.y++;
             this.energy--;
         }
         catch (OccupiedPositionException e)
         {
             Console.WriteLine($"\nPosição {this.x}, {this.y+1} está ocupada");
-       //     Console.ReadLine();
+            Console.ReadLine();
         }
         catch (OutOfMapException e)
         {
             Console.WriteLine($"\nPosição {this.x}, {this.y+1} fora do mapa");
-      //      Console.ReadLine();
+            Console.ReadLine();
         }
         catch (Exception e)
         {
-            Console.WriteLine($"\nPosição não permitida");
+            Console.WriteLine($"\n{e.ToString()}");
             Console.ReadLine();
         }
     }
@@ -109,7 +109,7 @@ public class Robot : Cell {
     public void GoLeft(){
         try
         {
-            map.Update(this.x, this.y, this.x, this.y-1);
+            this.map2.Update(this.x, this.y, this.x, this.y-1);
             this.y--;
             this.energy--;
         }
@@ -121,11 +121,11 @@ public class Robot : Cell {
         catch (OutOfMapException e)
         {
             Console.WriteLine($"\nPosição {this.x}, {this.y-1} fora do mapa");
-       //     Console.ReadLine();
+            Console.ReadLine();
         }
         catch (Exception e)
         {
-            Console.WriteLine($"\nPosição não permitida");
+        Console.WriteLine($"\n{e.ToString()}");
             Console.ReadLine();
         }
     }
@@ -134,10 +134,9 @@ public class Robot : Cell {
     /// Objetivo: Fazer a recarga de energia para conseguir andar pelo mapa.
     /// </summary>
     public void GetJ(){
-        //Console.Clear();
-        Rechargeable? RechargeEnergy = map.RecarregaRobo(this.x, this.y);
+        Rechargeable? RechargeEnergy = map2.RecarregaRobo(this.x, this.y);
         RechargeEnergy?.Recharge(this);
-        List<Jewel> NearJewels = map.GetJewels(this.x, this.y);
+        List<Jewel> NearJewels = map2.GetJewels(this.x, this.y);
         foreach (Jewel j in NearJewels)
             Bag.Add(j);
     }
@@ -158,7 +157,7 @@ public class Robot : Cell {
     /// </summary>
     public void Print()
     {
-        map.PrintMap();
+        this.map2.PrintMap();
         (int ItensBag, int TotalPoints) = this.GetBagInfo();
         Console.WriteLine($"\nSacola: {ItensBag} - Pontos: {TotalPoints} - Energia: {this.energy} - x:{this.x}, y: {this.y}\n\n");
     }

@@ -5,20 +5,36 @@ namespace Jewel_Collector;
 /// </summary>
 public class Map{
     private Cell[,] MapaJogo;
-    public int h {get; private set;}
-    public int w {get; private set;}
+    public int h {get; set;}
+    public int w {get; set;}
 
     /// <summary>
     /// Método Map
-    /// Objetivo: Peponsável por gerar o mapa com tamanho 10x10. Depois incrementa +1 ao tamanho do mapa, até o limite 30x30.
+    /// Objetivo: Peponsável por gerar o mapa com tamanho 10x10. 
+    /// Depois incrementa +1 ao tamanho do mapa, até o limite 30x30.
     /// </summary>
-    public Map (int w=10, int h=10, int level=1)
+    public Map (int x, int y, int level=1)
     {
-        this.w = w <= 30 ? w : 30;
-        this.h = h <= 30 ? h : 30;
-        MapaJogo = new Cell[w, h];
-        for (int i = 0; i < MapaJogo.GetLength(0); i++) {
-            for (int j = 0; j < MapaJogo.GetLength(1); j++) {
+        if (x <= 30)
+        {
+            this.w = x;
+        }
+        else
+        {
+            this.w = 30;
+        }
+        if (y <= 30)
+        {
+            this.h = y;
+        }
+        else
+        {
+            this.h = 30;
+
+        }
+        MapaJogo = new Cell[this.w, this.h];
+        for (int i = 0; i < this.w; i++) {
+            for (int j = 0; j < this.h; j++) {
                 MapaJogo[i, j] = new PreencheVazio();
             }
         }
@@ -40,9 +56,10 @@ public class Map{
     /// </summary>
     public void Update(int x_old, int y_old, int x, int y)
     {
-        if (x < 0 || y < 0 || x> this.w-1 || y> this.h-1)
+        if ((x < 0) || (y < 0) || ((x+1) > this.w) || ((y+1) > this.h))
         {
-            Console.WriteLine($"\nOutOfMapException:x({x}) > w({this.w-1}) ou y({y}) > h({this.w-1})");
+                
+            Console.WriteLine($"\nOutOfMapException:x({x}) > w({this.w-1}) ou y({y}) > h({this.h-1})");
             throw new OutOfMapException();
         }
         if (CasaVazia(x, y))
@@ -123,8 +140,8 @@ public class Map{
     /// </summary>
     public void PrintMap() {
         Console.Clear();
-        for (int i = 0; i < MapaJogo.GetLength(0); i++){
-            for (int j = 0; j < MapaJogo.GetLength(1); j++){
+        for (int i = 0; i < this.w; i++){
+            for (int j = 0; j < this.h; j++){
                 if(MapaJogo[i, j] is JewelRed) Console.ForegroundColor= ConsoleColor.Red;
                 else if(MapaJogo[i, j] is JewelGreen) Console.ForegroundColor= ConsoleColor.Green;
                 else if(MapaJogo[i, j] is JewelBlue) Console.ForegroundColor= ConsoleColor.Blue;
@@ -240,7 +257,7 @@ public abstract class Cell {
 }
 
 /// <summary>
-/// Classe pública Cell
+/// Classe PreencheVazio
 /// Objetivo: Instanciar espaços vazios no mapa.
 /// </summary>
 public class PreencheVazio : Cell {
